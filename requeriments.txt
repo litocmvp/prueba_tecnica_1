@@ -1,0 +1,12 @@
+Flask
+SQLAlchemy
+flask_wtf 
+WTForms
+Flask-Login
+Werkzeug
+python-dotoenv
+flask-migrate
+Flask-Seeder
+PyJWT
+uuid
+datetime
