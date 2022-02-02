@@ -8,22 +8,22 @@ class Zona(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	tipo = db.Column(db.String(15), unique=True, nullable=False)
 	
-	relacion_colonia = db.relationship("Colonia", backref='colonias', lazy=True, 
-		cascade="all, delete, update", passive_deletes=True)
+	relacion_colonia = db.relationship("Colonia", backref='tipos_zonas', lazy=True, 
+		cascade="all, delete", passive_deletes=True)
 
 	def __repr__(self):
 		return f'{self.tipo}'			
 
 class Asentamiento(db.Model):
-	"""Modelo para la tabla tipos_zonas"""
+	"""Modelo para la tabla tipos_asentamientos"""
 
 	__tablename__ = "tipos_asentamientos"
 
-	id = db.Column('c_tipo_asenta', db.Integer, primary_key=True)
+	id = db.Column(db.Integer, primary_key=True)
 	tipo = db.Column(db.String(15), unique=True, nullable=False)
 	
-	relacion_colonia = db.relationship("Colonia", backref='colonias', lazy=True, 
-		cascade="all, delete, update", passive_deletes=True)
+	relacion_colonia = db.relationship("Colonia", backref='tipos_asentamientos', lazy=True, 
+		cascade="all, delete", passive_deletes=True)
 
 	def __repr__(self):
 		return f'{self.tipo}'	
@@ -33,10 +33,10 @@ class CodigoPostal(db.Model):
 
 	__tablename__ = "codigos_postales"
 
-	id = db.Column('d_codigo', db.Integer, primary_key=True)
+	id = db.Column(db.Integer, primary_key=True)
 	
-	relacion_colonia = db.relationship("Colonia", backref='colonias', lazy=True, 
-		cascade="all, delete, update", passive_deletes=True)
+	relacion_colonia = db.relationship("Colonia", backref='codigos_postales', lazy=True, 
+		cascade="all, delete", passive_deletes=True)
 
 	def __repr__(self):
 		return f'{self.id}'				

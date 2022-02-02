@@ -1,0 +1,195 @@
+{% extends "plantilla.html" %}
+{% block title %} Autentificacíon {% endblock %}
+
+{% block html %}
+<div class="row mt-3">
+	<div class="col-md-12 col-lg-12 col-xs-12 col-12">
+		
+		<div id="login">
+			
+			<legend class="text-center">Acceso administrativo</legend>
+			<form action="" method="post" class="mt-5">
+				{{ form2.csrf_token(id='ht1') }}
+
+				<div class="text-center">
+					
+					<div class="input-group mt-4">
+						<span class="input-group-text">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+								<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+								<path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+							</svg>
+						</span>
+						{{ form2.user(class='form-control', placeholder='Nombre de Usuario') }}
+					</div>
+				
+				
+					<div class="input-group mt-4">
+						<span class="input-group-text">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+									<path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+							</svg>
+						</span>
+						{{ form2.password(class='form-control', placeholder='Contraseña') }}
+					</div>
+
+					<div class="input-group mt-4">
+						<div class="form-check">
+							{{ form2.remember_me(class='form-check-input') }}
+							{{ form2.remember_me.label(class='form-check-label') }}
+						</div>
+					</div>
+
+					<div class="my-4">
+						<p class="text-muted small">
+							<b>Nota:</b> 
+							Sino cuentas con un usuario registrado, haz clic 
+							<u class="text-info" role="button" onclick="hide_show(this)" id="n1">aquí</u>
+						</p>
+					</div>
+
+					{{ form2.submit1(class='btn btn-outline-success btn-lg btn-block') }}
+
+				</div>
+
+			</form>
+
+		</div>	
+
+		<div id="register" class="d-none">
+
+			<legend class="text-center">Registro administrativo</legend>
+				<form action="" method="post" class="mt-5">
+					{{ form.hidden_tag() }}
+
+					<div class="text-center">
+					
+						<div class="input-group mt-4">
+							<span class="input-group-text">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+									<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+									<path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+								</svg>
+							</span>
+							{{ form.usuario(class='form-control', placeholder='Nombre de Usuario', onkeyup="verificar_user(this.value)", minlength='6', maxlength='10') }}
+						</div>
+						<p class="text-danger text-start small d-none" id="alert">
+							Usuario ya registrado!
+						</p>
+					
+						<div class="input-group mt-4">
+							<span class="input-group-text">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+										<path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+								</svg>
+							</span>
+							{{ form.passwd(class='form-control', placeholder='Contraseña') }}
+						</div>
+
+						<div class="input-group mt-4">
+							<span class="input-group-text">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+										<path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+								</svg>
+							</span>
+							{{ form.passwd2(class='form-control', placeholder='Repita la Contraseña', onkeyup="verificar_pass(this.value)") }}
+						</div>
+						<p class="text-danger text-start small d-none" id="alert2">
+							Contraseñas diferentes!
+						</p>
+
+						<div class="input-group mt-4">
+							<div class="form-check">
+								{{ form.rol(class='form-check-input') }}
+								{{ form.rol.label(class='form-check-label') }}
+							</div>
+						</div>
+
+						<div class="my-4">
+							<p class="text-muted small">
+								<b>Nota:</b> 
+								Si ya cuentas con un usuario registrado, haz clic 
+								<u class="text-info" role="button" onclick="hide_show(this)" id="n2">aquí</u>
+							</p>
+						</div>
+
+						{{ form.submit(class='btn btn-outline-success btn-lg btn-block') }}
+
+					</div>
+
+				</form>	
+			
+		</div>
+
+	</div>
+
+</div> 
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+	function hide_show(tag){
+		let elemento = tag.id;
+
+		if (elemento.indexOf("n1") !== -1) {
+			document.getElementById("login").classList.add("d-none");
+			document.getElementById("register").classList.remove("d-none");
+		}else{
+
+			document.getElementById("register").classList.add("d-none");
+			document.getElementById("login").classList.remove("d-none");
+		}
+	}
+
+	function verificar_user(valor){
+
+		if (valor.length > 5) {
+
+			const http = new XMLHttpRequest();
+			var url = "http://"+gateway+"/api/v1/user/"+valor;
+		
+			http.open("GET", url);
+
+			http.onreadystatechange = function(){
+				if (this.readyState == 4 && this.status == 200) {
+					let result = JSON.parse(this.responseText);
+					if (result['result'] === true) {
+						document.getElementById("alert").classList.remove("d-none");
+					}else{
+						document.getElementById("alert").classList.add("d-none");
+					}
+				}
+			}
+
+			http.send(valor);
+
+		}else{
+			document.getElementById("alert").classList.add("d-none");
+		}
+	}
+
+	function verificar_pass(valor){
+		let pass1 = document.getElementById("passwd").value;
+
+		if (valor.length >= pass1.length) {
+			if (valor !== pass1) {
+				document.getElementById("alert2").innerHTML = "Contraseñas diferentes!"
+				document.getElementById("alert2").classList.remove("text-success");
+				document.getElementById("alert2").classList.add("text-danger");
+				document.getElementById("alert2").classList.remove("d-none");
+			}else{
+				document.getElementById("alert2").innerHTML = "Contraseñas Iguales!"
+				document.getElementById("alert2").classList.remove("text-danger");
+				document.getElementById("alert2").classList.add("text-success");
+				document.getElementById("alert2").classList.remove("d-none");
+			}	
+		}else{
+			document.getElementById("alert2").classList.add("d-none");
+		}
+	
+	}
+
+</script>
+
+{% endblock %}

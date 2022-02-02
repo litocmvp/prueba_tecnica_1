@@ -1,0 +1,21 @@
+{% extends "plantilla.html" %}
+
+{% block title %} Error 404 {% endblock %}
+
+{% block html %}
+
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+		<h1 class="titulo font-italic font-weight-bold text-center mt-3">
+			Pagina no encontrada
+		</h1>
+
+		<div class="d-flex justify-content-center">
+			<img class="img-fluid" src="{{url_for('static', filename = 'img/detective.png')}}">
+		</div>
+
+	</div>
+</div>	
+
+{% endblock %}

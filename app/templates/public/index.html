@@ -1,0 +1,221 @@
+{% extends "plantilla.html" %}
+{% block title %} Inicio {% endblock %}
+
+{% block html %} 
+<div class="row mt-3">
+	<div class="col-md-12 col-lg-12 col-xs-12">
+		<h3>Hola {{user}} aqui podras consultar datos de lugares de México</h3>
+
+		<form class="mt-4" action="" method="get" name="search_place">
+
+			<div class="form-group mt-3">
+				<label class="text-muted">¿Que deseas buscar?</label>
+				<select class="form-control" id="select_place" onchange="funcion1()">
+					<option value=0>- Seleccione -</option>
+					<option value=1>Estado de México</option>
+					<option value=2>Municipio de México</option>
+					<option value=3>Colonia de México</option>
+				</select>
+			</div>
+
+			<div class="form-group mt-3 d-none" id="type_search">
+				<label class="text-muted">¿Elige la forma de busqueda?</label>
+				<select class="form-control" id="select_type" onchange="funcion2()">
+					<option value=0>- Seleccione -</option>
+					<option value=1>Por Nombre</option>
+					<option value=2>Por Código postal</option>
+				</select>
+			</div>
+
+			<div class="form-group mt-3 d-none" id="input_nmb">
+				<label class="text-muted">Ingrese el Nombre </label>
+				<input type="text" name="keyword" class="form-control" id="nmb" onkeyup="ajax(this.value)">
+			</div>
+
+			<div class="form-group mt-3 d-none" id="input_cp">
+				<label class="text-muted">Ingrese el CP de la Colonia</label>
+				<input type="number" name="keyword" class="form-control" id="cp" onkeyup="ajax(this.value)">
+			</div>
+
+		</form>
+	</div>
+</div>
+
+<div class="row mt-5">
+	<div class="col-md-12 col-lg-12 col-xs-12 col-12">
+		
+		<div id="resultado">
+			
+		</div>
+
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+
+	var endpoint = "";
+
+	function funcion1(){
+		var eleccion = document.search_place.select_place.selectedIndex;
+		
+		if (eleccion==3) {
+			document.getElementById("type_search").classList.remove("d-none");
+			document.getElementById("input_nmb").classList.add("d-none");
+			document.getElementById("input_cp").classList.add("d-none");
+			endpoint = "http://"+gateway+"/api/v1/colonia/";
+
+		}else if (eleccion==0) {
+			document.getElementById("type_search").classList.add("d-none");
+			document.getElementById("input_nmb").classList.add("d-none");
+
+		}else{
+			document.getElementById("type_search").classList.add("d-none");
+			document.getElementById("input_nmb").classList.remove("d-none");
+
+			if (eleccion==1) {
+				endpoint = "http://"+gateway+"/api/v1/estado/";
+			}else{
+				endpoint = "http://"+gateway+"/api/v1/municipio/";
+			}
+		}
+
+	}
+
+	function funcion2(){
+		var eleccion2 = document.search_place.select_type.selectedIndex;		
+
+		if (eleccion2==0) {
+			document.getElementById("input_cp").classList.add("d-none");
+			document.getElementById("input_nmb").classList.add("d-none");
+
+		} else if (eleccion2 == 1){
+			document.getElementById("input_nmb").classList.remove("d-none");
+			document.getElementById("input_cp").classList.add("d-none");
+
+		}else{
+			document.getElementById("input_cp").classList.remove("d-none");
+			document.getElementById("input_nmb").classList.add("d-none");
+			
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	
+	var destino = document.getElementById("resultado");	
+
+	function ajax(val){
+
+		if (val.length > 4) {
+
+			const http = new XMLHttpRequest();
+			var url = endpoint+val;
+		
+			http.open("GET", url);
+
+			http.onreadystatechange = function(){
+				if (this.readyState == 4) { //&& this.status == 200
+					let result = JSON.parse(this.responseText);
+					table(result);
+				}
+			}
+
+			http.send(val);
+
+		}
+		else{
+			destino.innerHTML = "";
+		}
+
+	}	
+
+	function table(result){
+		
+		if ('result' in result) {
+
+			if (endpoint.indexOf("estado") !== -1) {
+				let datos = `<div class="table-responsive">
+								<table class="table table-striped">
+			  						<thead>
+			    						<tr>
+			      							<th scope="col">#</th>
+			      							<th scope="col">Nombre</th>
+			      							<th scope="col">Codigo</th>
+			    						</tr>
+			  						</thead>
+		  							<tbody>`;
+				for (var i = 0; i < result['result'].length; i++) {
+					let j = result['result'][i];
+					datos += '<tr>'+
+						    	'<th scope="row">'+(i+1)+'</th>'+
+						      	'<td>'+j['estado']+'</td>'+
+						      	'<td>'+j['id_estado']+'</td>'+
+						    '</tr>';
+				}
+				datos += "</tbody></table></div>";
+				destino.innerHTML = datos;			
+			}
+			else if (endpoint.indexOf("municipio") !== -1) {
+				let datos = `<div class="table-responsive">
+								<table class="table">
+			  						<thead>
+			    						<tr>
+			      							<th scope="col">#</th>
+			      							<th scope="col">Nombre</th>
+			      							<th scope="col">Codigo</th>
+			      							<th scope="col">Estado</th>
+			    						</tr>
+			  						</thead>
+		  							<tbody>`;
+				for (var i = 0; i < result['result'].length; i++) {
+					let j = result['result'][i];
+					datos += '<tr>'+
+						    	'<th scope="row">'+(i+1)+'</th>'+
+						      	'<td>'+j['municipio']+'</td>'+
+						      	'<td>'+j['id_municipio']+'</td>'+
+						      	'<td>'+j['estado']+'</td>'+
+						    '</tr>';
+				}
+				datos += "</tbody></table></div>";
+				destino.innerHTML = datos;				
+			}
+			else{
+				let datos = `<div class="table-responsive">
+								<table class="table">
+			  						<thead>
+			    						<tr>
+			      							<th scope="col">#</th>
+			      							<th scope="col">Nombre</th>
+			      							<th scope="col">CP</th>
+			      							<th scope="col">Municipio</th>
+			      							<th scope="col">Estado</th>
+			    						</tr>
+			  						</thead>
+		  							<tbody>`;
+				for (var i = 0; i < result['result'].length; i++) {
+					let j = result['result'][i];
+					datos += '<tr>'+
+						    	'<th scope="row">'+(i+1)+'</th>'+
+						      	'<td>'+j['colonia']+'</td>'+
+						      	'<td>'+j['cp']+'</td>'+
+						      	'<td>'+j['municipio']+'</td>'+
+						      	'<td>'+j['estado']+'</td>'+
+						    '</tr>';
+				}
+				datos += "</tbody></table></div>";
+				destino.innerHTML = datos;			
+			}
+
+		}
+		else{
+			destino.innerHTML = result["msg"];	
+		}
+
+	}
+
+</script>
+
+{% endblock %}

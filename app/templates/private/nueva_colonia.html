@@ -1,0 +1,188 @@
+{% extends "plantilla.html" %}
+{% block title %} Acceso Administrativo {% endblock %}
+
+{% block html %}
+
+<div class="row mt-3">
+	<div class="col-md-12 col-lg-12 col-xs-12 col-12 bg-light rounded shadow-lg">
+			
+		<legend class="text-center">Registro de Nueva Colonia en México</legend>
+		<form action="" method="post" class="mt-5 p-3" name="new_colony">
+			{{ form.hidden_tag() }}
+					
+			<div class="text-start mt-4">
+				{{ form.nombre.label }}
+				<div class="input-group">
+					<span class="input-group-text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+						  <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+						  <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+						</svg>
+					</span>
+					{{ form.nombre(class='form-control', placeholder='Nombre de la Colonia') }}
+				</div>
+			</div>	
+			
+			<div class="text-start mt-4">
+				{{ form.estado.label }}
+				<div class="input-group">
+					<span class="input-group-text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image-alt" viewBox="0 0 16 16">
+						  <path d="M7 2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm4.225 4.053a.5.5 0 0 0-.577.093l-3.71 4.71-2.66-2.772a.5.5 0 0 0-.63.062L.002 13v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4.5l-4.777-3.947z"/>
+						</svg>
+					</span>
+					{{ form.estado(class='form-control', onchange='municipios(this.value)') }}
+				</div>
+			</div>	
+
+			<div class="text-start mt-4">
+				{{ form.municipio.label }}
+				<div class="input-group">
+					<span class="input-group-text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-signpost-2" viewBox="0 0 16 16">
+						  <path d="M7 1.414V2H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h5v1H2.5a1 1 0 0 0-.8.4L.725 8.7a.5.5 0 0 0 0 .6l.975 1.3a1 1 0 0 0 .8.4H7v5h2v-5h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H9V6h4.5a1 1 0 0 0 .8-.4l.975-1.3a.5.5 0 0 0 0-.6L14.3 2.4a1 1 0 0 0-.8-.4H9v-.586a1 1 0 0 0-2 0zM13.5 3l.75 1-.75 1H2V3h11.5zm.5 5v2H2.5l-.75-1 .75-1H14z"/>
+						</svg>
+					</span>
+					{{ form.municipio(class='form-control', onchange='cps(this.value)') }}
+				</div>
+			</div>	
+
+			<div class="text-start mt-4">
+				{{ form.cp.label }}
+				<div class="input-group">
+					<span class="input-group-text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+						  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+						</svg>
+					</span>
+					{{ form.cp(class='form-control') }}
+				</div>
+			</div>	
+
+			<div class="text-start mt-4">
+				{{ form.asentamiento.label }}
+				<div class="input-group ">
+					<span class="input-group-text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+						  <path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/>
+						  <path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/>
+						</svg>
+					</span>
+					{{ form.asentamiento(class='form-control') }}
+				</div>	
+			</div>
+			
+			<div class="text-start my-4">
+				{{ form.zona.label}}
+				<div class="input-group">
+					<span class="input-group-text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree" viewBox="0 0 16 16">
+						  <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777l-3-4.5zM6.437 4.758A.5.5 0 0 0 6 4.5h-.066L8 1.401 10.066 4.5H10a.5.5 0 0 0-.424.765L11.598 8.5H11.5a.5.5 0 0 0-.447.724L12.69 12.5H3.309l1.638-3.276A.5.5 0 0 0 4.5 8.5h-.098l2.022-3.235a.5.5 0 0 0 .013-.507z"/>
+						</svg>
+					</span>
+					{{ form.zona(class='form-control') }}
+				</div>	
+			</div>
+
+			{{ form.submit(class='btn btn-outline-success btn-lg btn-block mb-4') }}
+						
+		</form>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+
+	//var cookie = ("; "+document.cookie).split("; token_user=").pop().split(";").shift();
+
+	function isNumeric(value) {
+	    return /^-?\d+$/.test(value);
+	}
+	
+	function municipios(element){
+
+		if (isNumeric(element)) {
+
+			let select_municipios = document.getElementById("municipio");
+
+			const http = new XMLHttpRequest();
+			var url = "http://"+gateway+"/api/v1/municipios/"+element;
+		
+			http.open("GET", url);
+
+			//http.setRequestHeader("x-access-tokens", cookie);
+			
+			http.onreadystatechange = function(){
+				if (this.readyState == 4 && this.status == 200) {
+					let result = JSON.parse(this.responseText);
+			
+					// Limpiar Select
+					select_municipios.innerText = null;
+
+					// Llenar de acuerdo al estado seleccionado
+					let option = document.createElement("option");
+					option.textContent = "- Seleccione -";
+				    option.value = 0;
+				    select_municipios.appendChild(option);
+					for (var i = 0; i < result['result'].length; i++) {
+						let j = result['result'][i];
+						let option = document.createElement("option");
+					    option.textContent = j['nombre'];
+					    option.value = j['id'];
+					    select_municipios.appendChild(option);
+					}
+
+				}
+			}
+
+			http.send(element);
+
+		}
+	}
+
+	function cps(element){
+
+		if (isNumeric(element) && element > 0) {
+
+			let select_cps = document.getElementById("cp");
+
+			const http = new XMLHttpRequest();
+			var url = "http://"+gateway+"/api/v1/cps/"+element;
+		
+			http.open("GET", url);
+
+			//http.setRequestHeader("x-access-tokens", cookie);
+
+			http.onreadystatechange = function(){
+				if (this.readyState == 4 && this.status == 200) {
+					let result = JSON.parse(this.responseText);
+
+					// Limpiar Select
+					select_cps.innerText = null;
+
+					// Llenar de acuerdo al estado seleccionado
+					let option = document.createElement("option");
+					option.textContent = "- Seleccione -";
+				    option.value = 0;
+				    select_cps.appendChild(option);
+					for (var i = 0; i < result['result'].length; i++) {
+						let j = result['result'][i];
+						let option = document.createElement("option");
+					    option.textContent = j;
+					    option.value = j;
+					    select_cps.appendChild(option);
+					}
+
+				}
+			}
+
+			http.send(element);
+
+		}
+	
+	}
+
+</script>
+
+{% endblock %}

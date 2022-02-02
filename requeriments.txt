@@ -2,11 +2,12 @@ Flask
 SQLAlchemy
 flask_wtf 
 WTForms
+WTForms-SQLAlchemy
 Flask-Login
 Werkzeug
-python-dotoenv
+python-dotenv
 flask-migrate
-Flask-Seeder
 PyJWT
 uuid
 datetime
+Flask-Script

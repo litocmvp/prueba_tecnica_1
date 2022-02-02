@@ -1,0 +1,21 @@
+{% extends "plantilla.html" %}
+
+{% block title %} Error 500 {% endblock %}
+
+{% block html %}
+
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+		<div class="d-flex justify-content-center mb-3">
+			<img class="img-fluid" src="{{url_for('static', filename = 'img/dead.png')}}">
+		</div>
+
+		<h3 class="titulo font-italic font-weight-bold text-center">
+			Error 500
+		</h3>
+
+	</div>
+</div>	
+
+{% endblock %}

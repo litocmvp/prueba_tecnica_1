@@ -4,13 +4,116 @@ import os
 def PathInitial():
 	return os.path.abspath(os.getcwd())
 
-# Reducir Busqueda en listas
+# Leer Txt de SEPOMEX
+def LeerTxt(file_path, modo):
+	chains = []
+	with open(file_path, modo) as f:
+	    lines = f.readlines()
+
+	    # Iniciar por la linea 3, en el archivo .txt ya que de aqui al final son datos a almacenar en la BD 
+	    for i in range(2, len(lines), 1):
+	    	subchain = lines[i].split('|')
+	    	chains.append(subchain) 
+
+	    f.close()	
+
+	# Eliminar espacios en blancos
+	for i in chains:
+		for j in range(0, len(i), 1):
+			if j == len(i)-1:
+				i[j].replace('\n', '')
+			i[j] = i[j].strip()	
+
+	return chains
+
+# Obtener lista de TXT
+def ClasificarListas(chains, get_list):
+	"""
+	Leyenda de Indices almacenados en keyword 'chain'
+	[0] = d_codigo (Codigo postal)
+	[1] = d_asenta (Colonia)
+	[2] = d_tipo_asenta (Tipo de Asentamiento)
+	[3] = D_mnpio (Municipio)
+	[4] = d_estado (Estado)
+	[7] = c_estado (Código del estado) 
+	[10] = c_tipo_asenta (Código de Tipo de Asentamiento)
+	[11] = c_mnpio (Código del municipio)
+	[13] = d_zona (Tipo de zona)
+
+	Leyenda de get_list
+	1 = Zonas
+	2 = Asentamientos
+	3 = Codigos postales
+	4 = Estados
+	5 = Municipio
+	6 = Colonias
+	"""
+	lista = []
+
+	if get_list == 1: 
+		for chain in chains:
+			lista.append(chain[13])
+	if get_list == 2:
+		for chain in chains:
+			# Asentamientos
+			if len(lista)>1:
+				OrderList(lista, 'codigo')
+				if not SearchValue(lista=lista, valor1=chain[10], key1='codigo'):
+					arb = {'codigo':chain[10], 'tipo':chain[2]}
+					lista.append(arb)
+			else:
+				arb = {'codigo':chain[10], 'tipo':chain[2]}
+				lista.append(arb)
+	if get_list == 3:
+		for chain in chains:
+			# Códigos postales
+			lista.append(chain[0])
+	if get_list == 4:
+		for chain in chains:		
+			# Estados
+			arb = {'codigo':chain[7], 'nombre':chain[4]}
+			lista.append(arb)
+	if get_list == 5:
+		for chain in chains:		
+			# Municipios
+			arb = {'codigo':chain[11], 'nombre':chain[3], 'cod_estado':chain[7]}
+			lista.append(arb)
+	if get_list == 6:
+		for chain in chains:		
+			# Colonias
+			arb = ({'nombre':chain[1], 'cod_postal':chain[0], 'tip_zona': chain[13], 
+					'cod_asentamiento':chain[10], 'cod_estado': chain[7],
+					'cod_municipio':chain[11]})
+			lista.append(arb)
+
+	return lista			
+
+# Ordenar listas para reducir Busqueda
 def OrderList(lista, keyword=None):
 	if len(lista) > 1:
 		if type(lista[0]) is dict:
 			return sorted(lista, key=lambda i: i[keyword])
 		else:	
 			return lista.sort()
+
+# NOTA: La lista debe de estar previamente ordenada
+def PurgarRepetidos(lista, keyword=None):
+
+	pivote = 0
+	indices_iguales = []
+
+	for i in range(1, len(lista), 1):
+		if ((lista[pivote].get(keyword) if type(lista[i]) is dict else lista[pivote]) == 
+			(lista[i].get(keyword) if type(lista[i]) is dict else lista[i])):
+			indices_iguales.append(i)
+		else:
+			pivote = i
+
+	indices_iguales.reverse()
+	for i in indices_iguales:
+		lista.pop(i)
+
+	return lista
 
 # Buscar valor en lista 
 def SearchValue(lista, valor1=None, valor2=None, key1=None, key2=None):
@@ -107,23 +210,4 @@ def SearchValue(lista, valor1=None, valor2=None, key1=None, key2=None):
 					return True	# Se encontro el elemento en la lista
 
 	return False # No se encontro el elemento en la lista					
-
-# NOTA: La lista debe de estar previamente ordenada
-def PurgarRepetidos(lista, keyword=None):
-
-	pivote = 0
-	indices_iguales = []
-
-	for i in range(1, len(lista), 1):
-		if ((lista[pivote].get(keyword) if type(lista[i]) is dict else lista[pivote]) == 
-			(lista[i].get(keyword) if type(lista[i]) is dict else lista[i])):
-			indices_iguales.append(i)
-		else:
-			pivote = i
-
-	indices_iguales.reverse()
-	for i in indices_iguales:
-		lista.pop(i)
-
-	return lista
-		 		
+						
