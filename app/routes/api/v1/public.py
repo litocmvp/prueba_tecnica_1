@@ -3,7 +3,6 @@ from . import api_v1
 from app import db
 from app.models.users import Usuario
 from app.models.places import Estado, Municipio, Colonia
-from app.models.features_colonies import Zona, Asentamiento
 from app.common.generals_functions import OrderList, PurgarRepetidos
 from app.common.error_handling import ObjectNotFound
 import jwt

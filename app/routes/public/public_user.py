@@ -1,4 +1,4 @@
-from flask import jsonify, request, flash, redirect, url_for, render_template, current_app, make_response
+from flask import flash, redirect, url_for, render_template, current_app, make_response
 from flask_login import current_user, login_user
 from . import public_bp
 from app import db
@@ -41,7 +41,7 @@ def acceso_usuario():
 							current_app.config["SECRET_KEY"], algorithm="HS256")  
 			#json_tk = jsonify({'token' : token}) 
 			resp = make_response(redirect(url_for('private.acceso')))
-			resp.set_cookie('token_user', token) # , httponly = True  
+			resp.set_cookie('token_user', token, httponly=True) # , httponly = True  
 			return resp
 		else:
 			flash('usuario o contraseña incorrecta', 'warning')

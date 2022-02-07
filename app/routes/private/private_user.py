@@ -7,7 +7,7 @@ from flask import redirect, url_for
 @login_manager.user_loader
 def load_user(user_id):
 	try:
-	    return Usuario.get(user_id)
+		return Usuario.get(user_id)
 	except:
 		return None    
 

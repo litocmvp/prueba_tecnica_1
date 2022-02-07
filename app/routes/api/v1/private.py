@@ -1,15 +1,15 @@
-from flask import request, jsonify
+from flask import request, jsonify, abort
 from . import api_v1
-from app import db
+from app import db, csrf
 from app.models.users import Usuario
-from app.models.places import Colonia, Municipio
+from app.models.places import Colonia
 
-@api_v1.route('/api/v1/colonia/', methods=['POST'])
+@api_v1.route('/api/v1/acceso', methods=['POST'])
+@csrf.exempt
 @Usuario.token_required
 def api_v1_post_colonia(current_user):
-
+	if not current_user.admin : return abort(403)
 	nombre = request.json['nombre']
-	#estado = request.json['estado']
 	municipio = request.json['municipio']
 	cp = request.json['cp']
 	asentamiento = request.json['asentamiento']
@@ -19,12 +19,11 @@ def api_v1_post_colonia(current_user):
 	continuar = False
 
 	for i in buscar:
-		if i.fk_municipio == municipio:
+		if i.fk_municipio == int(municipio):
 			continuar = True
 			break
 
 	if continuar:		
-
 		for i in buscar:
 			if i.nombre == nombre:
 				continuar = False
@@ -38,4 +37,6 @@ def api_v1_post_colonia(current_user):
 
 			return jsonify({'result': 'Registro exitoso'})	
 		else:
-			return jsonify({'result': 'Colonia ya registrada'})			
+			return jsonify({'result': 'Colonia ya registrada'})	
+	else:
+		return jsonify({'result': 'El CP no pertenece al municipio ingresado'})			

@@ -1,20 +1,18 @@
-from flask import request, render_template
+from flask import request, render_template, flash, redirect, url_for, abort
 from . import private_bp
 from app import db
-from app.models.users import Usuario
 from app.models.places import Colonia
 from app.forms.forms_places import RegColonia
-from flask_login import login_required
+from flask_login import current_user, login_required
 
 @private_bp.route('/usuario/acceso', methods=['GET', 'POST'])
 @login_required
-#@Usuario.token_required
 def acceso():
+	if not current_user.admin : return abort(403)
 	form = RegColonia()
 
 	if form.submit.data and form.validate():
 		nombre = form.nombre.data
-		estado = request.form['estado']
 		municipio = request.form['municipio']
 		cp = request.form['cp']
 		asentamiento = request.form['asentamiento']

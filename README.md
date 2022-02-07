@@ -1,7 +1,8 @@
 # Prueba Técnica de API-REST, Creación de Seeder DB, Scripts y JWT
 
-Demo técnica que implementa distintos métodos y herramientas para la integración de datos que consume un cliente a través de una API-REST con autentificación JWT, registrando y consultando colonias, cp, estados y municipios del país de México, ofrecidos por un archivo en formato txt que deberá ser descargado desde la siguiente url: https://www.correosdemexico.gob.mx/SSLServicios/ConsultaCP/CodigoPostal_Exportar.aspx
-Con este formato los datos podrán ser registrados en una base de datos por medio de un Seeder, con ayuda de Flask Script, para la integración de creación de comandos en CLI.
+Demo técnica que implementa distintos métodos y herramientas para la integración de datos que consume un cliente a través de una API-REST con autentificación JWT, registrando y consultando colonias, cp, estados y municipios del país de México.
+
+Registrados en una base de datos por medio de un Seeder, con ayuda de Flask Script, para la integración de creación de comandos en CLI.
 
 ## Comenzando
 Dentro de la ruta local de tu computador en donde desees obtener una copia de este repositorio, coloca la siguiente instrucción en el CLI de Git:
@@ -12,7 +13,9 @@ Una vez obtenido procedemos a entrar al directorio del repositorio por CLI y cre
 
     python3 -m venv enviroment_name # En Linux / MacOS
     py -3 -m venv enviroment_name # En Windows  
-###### Nota: "enviroment_name" se refiere al nombre que deseemos colocarle al entorno virtual
+
+__Nota:__ *"enviroment_name" se refiere al nombre que deseemos colocarle al entorno virtual*
+
 Al crearse procedemos a entrar al entorno virtual con la siguiente instrucción:
 
     . enviroment_name/bin/activate # En Linux / MacOS
@@ -47,7 +50,8 @@ Los nombres de las variables de entorno que deberas colocar en el archivo ".env"
     py
     import os
     print(os.urandom(byte_length))
-##### Nota: "byte_length" es el número de longitud de la cifra que deseemos, ej: 24 
+__Nota:__ *"byte_length" es el número de longitud de la cifra que deseemos, ej: 24*
+
 Como resultado el CLI nos imprimiría por ejemplo este resultado: `b'KG\xe2"\x89\xb4\x88G\x05\x91\x8bWLdu$1\xdc\x84\x00\x8b\xbe5\x9d'`
 El cual podrías usar para el valor de la variable KEY.
 
@@ -58,7 +62,9 @@ La variable "PATH_DB" se refiere a la ruta o dirección de conexión de la base 
     # En Windows
 	    'sqlite:///C:\\Users\\UserName\\Desktop\\RepositoryFolder\\db_prueba.db'
    
-Ya creado el archivo ".env" dentro de la carpeta del repositorio, es igual necesario crear la Base de datos (solamente vacía), para que el PATH_DB, generé localice la BD y más adelante se pueda generar las tablas.
+Ya creado el archivo ".env" dentro de la carpeta del repositorio, es igual necesario crear la Base de datos (solamente vacía), para que el PATH_DB, localice la BD y más adelante se puedan generar las tablas.
+
+O si deseas, puedes descargar la base de datos previamente cargada con las tablas y los registros, dando clic [AQUI](https://1drv.ms/u/s!AkZJq0nr4WTrhOFoaUnp__5cc9cHeQ?e=zApmal), saltandose asi las secciones __Creación de Tablas__ y __Ejecutando las Pruebas__ del presente documento.
 
 Como ultimo y para que surtan efectos estas variables necesitaremos salirnos del entorno virtual, previamente creado y volver a ingresar, para detectar las variables de entorno dentro del archivo ".env"; esto lo logramos con la siguiente instrucción en el CLI: 
 
@@ -79,9 +85,11 @@ Con estas tres instrucciones podemos generar las tablas dentro de la base de dat
 Para poblar la base de datos requerimos de las siguientes instrucciones:
 
     python manage.py seed --eleccion --ruta
-En donde "--eleccion" es el número de tabla a poblar y "--ruta" es la dirección absoluta del archivo txt, descargado de la url: https://www.correosdemexico.gob.mx/SSLServicios/ConsultaCP/CodigoPostal_Exportar.aspx
-##### Nota: para ver el número de elecciones que corresponde a las tablas, visita el archivo "seeder.py" dentro de la carpeta "app/common" que se encuentra en la carpeta del repositorio.
-##### Nota 2: Debido al gran volumen de datos a almacenar, es importante esperar a que la ejecución del comando finalice, para una correcta integración a la BD.
+En donde "--eleccion" es el número de tabla a poblar y "--ruta" es la dirección absoluta del archivo txt, que se encuentra dentro del repositorio en la ruta "/app/static/file_SEPOMEX.txt".
+
+__Nota:__ *para ver el número de elecciones que corresponde a las tablas, visita el archivo "seeder.py" dentro de la carpeta "app/common" que se encuentra en la carpeta del repositorio.*
+
+__Nota 2:__ *Debido al gran volumen de datos a almacenar, es importante esperar a que la ejecución del comando finalice, para una correcta integración a la BD.*
 
 Ahora que ya hemos poblado la BD, procedemos a ejecutar la aplicación con la siguiente instrucción en el CLI:
 
@@ -89,8 +97,9 @@ Ahora que ya hemos poblado la BD, procedemos a ejecutar la aplicación con la si
 Con ello podremos acceder a traves de un navegador y visitar "localhost"
 
 ### Analice la autentificiación sin estado (Stateless)
-Al acceder a la interfaz de usuario, podremos registrar nuevas colonias, gracias al JSON Web Token (JWT), que nos devolverá el usuario a traves de la API-REST, para ello se requiere registrarse como un usuario con privilegios de registro, que se tendra que seleccionar en el checkbox del formulario de registro. 
-Una vez registrado, tendremos que iniciar sesión y si los datos de nombre de usuario y contraseña son encontrados en la BD podremos a traves del inspeccionador de desarrollo del navegador, corroborar que recibimos como respuesta de la API-REST un token, compuesto por un encabezado, un contenido y una firma, que nos servirá para poder registrar nuevas colonias o denegarnos este permiso (si es que no se activo el checkbox del formulario del registro). 
+En esta prueba técnica se implementó una interfaz web para que el usuario pueda registrar nuevas colonias, por medio de la autentificación del usuario que tendrá que ser previamente registrado con permisos de administrador; despues de la autentificación se creará un JSON Web Token (JWT), y será almacenada en una cookie con el nombre de "__token_user__", con este token, podremos realizar las pruebas pertinentes del consumo de la REST-API con un software que nos permita realizar pruebas API, como ejemplo "__Postman__". Con este tipo de software podremos de igual forma registrar nuevas colonias e registrar usuario, y autentificarse para obtener un token.  
+
+__Nota:__ *al registrar el usuario por interfaz web, debera hacer clic en el checkbox del formulario para poder registrar nuevas colonias, sino, el usuario no tendra los permisos necesarios y será denegado.*
 
 ## Construido con
 
