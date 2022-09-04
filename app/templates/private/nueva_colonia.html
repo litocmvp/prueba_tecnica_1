@@ -107,7 +107,7 @@
 			let select_municipios = document.getElementById("municipio");
 
 			const http = new XMLHttpRequest();
-			var url = gateway+"/api/v1/municipios/"+element;
+			var url = "/api/v1/municipios/"+element;
 
 			http.open("GET", url);
 
@@ -148,7 +148,7 @@
 			let select_cps = document.getElementById("cp");
 
 			const http = new XMLHttpRequest();
-			var url = gateway+"/api/v1/cps/"+element;
+			var url = "/api/v1/cps/"+element;
 
 			http.open("GET", url);
 

@@ -17,7 +17,7 @@
 	<body>
 
 		<div class="container">
-			
+
 			<nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
 			  <a class="navbar-brand" href="https://www.cmvp.me" target="_blank">Test API</a>
 			  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,7 @@
 						  <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
 						  <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
 						</svg>
-			    	</a>			    			
+			    	</a>
 				   	{% endif %}
 			      </li>
 			    </ul>
@@ -55,7 +55,7 @@
 
 				{% with messages = get_flashed_messages(with_categories=true) %}
 				  {% if messages %}
-				   
+
 				    {% for category, message in messages %}
 				    <div class="alert alert-{{ category }} alert-dismissible fade show position-absolute" role="alert" style="z-index: 4;">
 					  	<span>{{message}}</span>
@@ -68,20 +68,20 @@
 				</div>
 			</div>
 
-			{% block html %} 
+			{% block html %}
 			{% endblock %}
-		
+
 		</div>
 
 		<!-- End Page content holder -->
-		{% block endcontainer %} 
+		{% block endcontainer %}
 		{% endblock %}
 
 		<!-- JavaScript Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 		<script type="text/javascript">
-			
+
 			function fade(element) {
 			    var op = 1;  // initial opacity
 			    var timer = setInterval(function () {
@@ -96,14 +96,12 @@
 			}
 
 			var alerta = document.getElementById("alert0");
-			
+
 			window.setTimeout(
 				function() {
 					fade(alerta);
 			}, 3000);
 
-
-			const gateway = "localhost"
 		</script>
 
 		{% block scripts %}

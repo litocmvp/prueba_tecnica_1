@@ -65,7 +65,7 @@
 			document.getElementById("type_search").classList.remove("d-none");
 			document.getElementById("input_nmb").classList.add("d-none");
 			document.getElementById("input_cp").classList.add("d-none");
-			endpoint = gateway+"/api/v1/colonia/";
+			endpoint = "/api/v1/colonia/";
 
 		}else if (eleccion==0) {
 			document.getElementById("type_search").classList.add("d-none");
@@ -76,9 +76,9 @@
 			document.getElementById("input_nmb").classList.remove("d-none");
 
 			if (eleccion==1) {
-				endpoint = gateway+"/api/v1/estado/";
+				endpoint = "/api/v1/estado/";
 			}else{
-				endpoint = gateway+"/api/v1/municipio/";
+				endpoint = "/api/v1/municipio/";
 			}
 		}
 
