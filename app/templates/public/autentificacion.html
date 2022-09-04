@@ -4,15 +4,15 @@
 {% block html %}
 <div class="row mt-3">
 	<div class="col-md-12 col-lg-12 col-xs-12 col-12">
-		
+
 		<div id="login">
-			
+
 			<legend class="text-center">Acceso administrativo</legend>
 			<form action="" method="post" class="mt-5">
 				{{ form2.csrf_token(id='ht1') }}
 
 				<div class="text-center">
-					
+
 					<div class="input-group mt-4">
 						<span class="input-group-text">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -22,8 +22,8 @@
 						</span>
 						{{ form2.user(class='form-control', placeholder='Nombre de Usuario') }}
 					</div>
-				
-				
+
+
 					<div class="input-group mt-4">
 						<span class="input-group-text">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
@@ -42,8 +42,8 @@
 
 					<div class="my-4">
 						<p class="text-muted small">
-							<b>Nota:</b> 
-							Sino cuentas con un usuario registrado, haz clic 
+							<b>Nota:</b>
+							Sino cuentas con un usuario registrado, haz clic
 							<u class="text-info" role="button" onclick="hide_show(this)" id="n1">aquí</u>
 						</p>
 					</div>
@@ -54,7 +54,7 @@
 
 			</form>
 
-		</div>	
+		</div>
 
 		<div id="register" class="d-none">
 
@@ -63,7 +63,7 @@
 					{{ form.hidden_tag() }}
 
 					<div class="text-center">
-					
+
 						<div class="input-group mt-4">
 							<span class="input-group-text">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -76,7 +76,7 @@
 						<p class="text-danger text-start small d-none" id="alert">
 							Usuario ya registrado!
 						</p>
-					
+
 						<div class="input-group mt-4">
 							<span class="input-group-text">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
@@ -107,8 +107,8 @@
 
 						<div class="my-4">
 							<p class="text-muted small">
-								<b>Nota:</b> 
-								Si ya cuentas con un usuario registrado, haz clic 
+								<b>Nota:</b>
+								Si ya cuentas con un usuario registrado, haz clic
 								<u class="text-info" role="button" onclick="hide_show(this)" id="n2">aquí</u>
 							</p>
 						</div>
@@ -117,13 +117,13 @@
 
 					</div>
 
-				</form>	
-			
+				</form>
+
 		</div>
 
 	</div>
 
-</div> 
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -147,8 +147,8 @@
 		if (valor.length > 5) {
 
 			const http = new XMLHttpRequest();
-			var url = "http://"+gateway+"/api/v1/user/"+valor;
-		
+			var url = gateway+"/api/v1/user/"+valor;
+
 			http.open("GET", url);
 
 			http.onreadystatechange = function(){
@@ -183,11 +183,11 @@
 				document.getElementById("alert2").classList.remove("text-danger");
 				document.getElementById("alert2").classList.add("text-success");
 				document.getElementById("alert2").classList.remove("d-none");
-			}	
+			}
 		}else{
 			document.getElementById("alert2").classList.add("d-none");
 		}
-	
+
 	}
 
 </script>

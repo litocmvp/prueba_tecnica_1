@@ -1,7 +1,7 @@
 {% extends "plantilla.html" %}
 {% block title %} Inicio {% endblock %}
 
-{% block html %} 
+{% block html %}
 <div class="row mt-3">
 	<div class="col-md-12 col-lg-12 col-xs-12">
 		<h3>Hola {{user}} aqui podras consultar datos de lugares de México</h3>
@@ -43,9 +43,9 @@
 
 <div class="row mt-5">
 	<div class="col-md-12 col-lg-12 col-xs-12 col-12">
-		
+
 		<div id="resultado">
-			
+
 		</div>
 
 	</div>
@@ -60,12 +60,12 @@
 
 	function funcion1(){
 		var eleccion = document.search_place.select_place.selectedIndex;
-		
+
 		if (eleccion==3) {
 			document.getElementById("type_search").classList.remove("d-none");
 			document.getElementById("input_nmb").classList.add("d-none");
 			document.getElementById("input_cp").classList.add("d-none");
-			endpoint = "http://"+gateway+"/api/v1/colonia/";
+			endpoint = gateway+"/api/v1/colonia/";
 
 		}else if (eleccion==0) {
 			document.getElementById("type_search").classList.add("d-none");
@@ -76,16 +76,16 @@
 			document.getElementById("input_nmb").classList.remove("d-none");
 
 			if (eleccion==1) {
-				endpoint = "http://"+gateway+"/api/v1/estado/";
+				endpoint = gateway+"/api/v1/estado/";
 			}else{
-				endpoint = "http://"+gateway+"/api/v1/municipio/";
+				endpoint = gateway+"/api/v1/municipio/";
 			}
 		}
 
 	}
 
 	function funcion2(){
-		var eleccion2 = document.search_place.select_type.selectedIndex;		
+		var eleccion2 = document.search_place.select_type.selectedIndex;
 
 		if (eleccion2==0) {
 			document.getElementById("input_cp").classList.add("d-none");
@@ -98,14 +98,14 @@
 		}else{
 			document.getElementById("input_cp").classList.remove("d-none");
 			document.getElementById("input_nmb").classList.add("d-none");
-			
+
 		}
 	}
 </script>
 
 <script type="text/javascript">
-	
-	var destino = document.getElementById("resultado");	
+
+	var destino = document.getElementById("resultado");
 
 	function ajax(val){
 
@@ -113,7 +113,7 @@
 
 			const http = new XMLHttpRequest();
 			var url = endpoint+val;
-		
+
 			http.open("GET", url);
 
 			http.onreadystatechange = function(){
@@ -130,10 +130,10 @@
 			destino.innerHTML = "";
 		}
 
-	}	
+	}
 
 	function table(result){
-		
+
 		if ('result' in result) {
 
 			if (endpoint.indexOf("estado") !== -1) {
@@ -156,7 +156,7 @@
 						    '</tr>';
 				}
 				datos += "</tbody></table></div>";
-				destino.innerHTML = datos;			
+				destino.innerHTML = datos;
 			}
 			else if (endpoint.indexOf("municipio") !== -1) {
 				let datos = `<div class="table-responsive">
@@ -180,7 +180,7 @@
 						    '</tr>';
 				}
 				datos += "</tbody></table></div>";
-				destino.innerHTML = datos;				
+				destino.innerHTML = datos;
 			}
 			else{
 				let datos = `<div class="table-responsive">
@@ -206,12 +206,12 @@
 						    '</tr>';
 				}
 				datos += "</tbody></table></div>";
-				destino.innerHTML = datos;			
+				destino.innerHTML = datos;
 			}
 
 		}
 		else{
-			destino.innerHTML = result["msg"];	
+			destino.innerHTML = result["msg"];
 		}
 
 	}

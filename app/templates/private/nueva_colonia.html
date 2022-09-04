@@ -5,11 +5,11 @@
 
 <div class="row mt-3">
 	<div class="col-md-12 col-lg-12 col-xs-12 col-12 bg-light rounded shadow-lg">
-			
+
 		<legend class="text-center">Registro de Nueva Colonia en México</legend>
 		<form action="" method="post" class="mt-5 p-3" name="new_colony">
 			{{ form.hidden_tag() }}
-					
+
 			<div class="text-start mt-4">
 				{{ form.nombre.label }}
 				<div class="input-group">
@@ -21,8 +21,8 @@
 					</span>
 					{{ form.nombre(class='form-control', placeholder='Nombre de la Colonia') }}
 				</div>
-			</div>	
-			
+			</div>
+
 			<div class="text-start mt-4">
 				{{ form.estado.label }}
 				<div class="input-group">
@@ -33,7 +33,7 @@
 					</span>
 					{{ form.estado(class='form-control', onchange='municipios(this.value)') }}
 				</div>
-			</div>	
+			</div>
 
 			<div class="text-start mt-4">
 				{{ form.municipio.label }}
@@ -45,7 +45,7 @@
 					</span>
 					{{ form.municipio(class='form-control', onchange='cps(this.value)') }}
 				</div>
-			</div>	
+			</div>
 
 			<div class="text-start mt-4">
 				{{ form.cp.label }}
@@ -57,7 +57,7 @@
 					</span>
 					{{ form.cp(class='form-control') }}
 				</div>
-			</div>	
+			</div>
 
 			<div class="text-start mt-4">
 				{{ form.asentamiento.label }}
@@ -69,9 +69,9 @@
 						</svg>
 					</span>
 					{{ form.asentamiento(class='form-control') }}
-				</div>	
+				</div>
 			</div>
-			
+
 			<div class="text-start my-4">
 				{{ form.zona.label}}
 				<div class="input-group">
@@ -81,11 +81,11 @@
 						</svg>
 					</span>
 					{{ form.zona(class='form-control') }}
-				</div>	
+				</div>
 			</div>
 
 			{{ form.submit(class='btn btn-outline-success btn-lg btn-block mb-4') }}
-						
+
 		</form>
 
 {% endblock %}
@@ -99,7 +99,7 @@
 	function isNumeric(value) {
 	    return /^-?\d+$/.test(value);
 	}
-	
+
 	function municipios(element){
 
 		if (isNumeric(element)) {
@@ -107,16 +107,16 @@
 			let select_municipios = document.getElementById("municipio");
 
 			const http = new XMLHttpRequest();
-			var url = "http://"+gateway+"/api/v1/municipios/"+element;
-		
+			var url = gateway+"/api/v1/municipios/"+element;
+
 			http.open("GET", url);
 
 			//http.setRequestHeader("x-access-tokens", cookie);
-			
+
 			http.onreadystatechange = function(){
 				if (this.readyState == 4 && this.status == 200) {
 					let result = JSON.parse(this.responseText);
-			
+
 					// Limpiar Select
 					select_municipios.innerText = null;
 
@@ -148,8 +148,8 @@
 			let select_cps = document.getElementById("cp");
 
 			const http = new XMLHttpRequest();
-			var url = "http://"+gateway+"/api/v1/cps/"+element;
-		
+			var url = gateway+"/api/v1/cps/"+element;
+
 			http.open("GET", url);
 
 			//http.setRequestHeader("x-access-tokens", cookie);
@@ -180,7 +180,7 @@
 			http.send(element);
 
 		}
-	
+
 	}
 
 </script>
